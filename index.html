@@ -115,27 +115,26 @@
         }
         .personality-image {
             width: 100%;
-            max-width: 200px;
+            max-width: 260px;
             aspect-ratio: 1 / 1;
             background: #fff;
             border-radius: 12px;
             object-fit: cover;
-            content-visibility: auto;
         }
         .element-tag {
             position: absolute;
-            bottom: 9px;
-            left: 9px;
+            bottom: 16px;
+            left: 16px;
             background: rgba(255,255,255,0.9);
             padding: 6px 12px;
             border-radius: 16px;
             font-weight: bold;
-            font-size: 14px;
-            writing-mode: vertical-rl;
-            text-orientation: upright;
+            font-size: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 2px 8px rgba(100, 100, 100, 0.15);
+
         }
         .personality-title {
             font-size: 14px;
@@ -277,7 +276,7 @@
         <div class="result-page" id="resultPage">
             <div class="result-card">
                 <div class="character-card" id="characterCard">
-                    <img class="personality-image" id="personalityImage" src="" alt="人格类型图片" loading="eager" crossorigin="anonymous">
+                    <img class="personality-image" id="personalityImage" src="" alt="人格类型图片">
                     <div class="element-tag" id="elementTag"></div>
                 </div>
             </div>
@@ -370,6 +369,7 @@
         const nextBtn = document.getElementById("nextBtn");
         const saveBtn = document.getElementById("saveBtn");
 
+        // 均衡抽取正负向题目，每个维度2正2负1随机
         function getRandomQuestions() {
             const grouped = {
                 E: { pos: fullQuestionBank.filter(q => q.type === "E" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "E" && !q.isPositive) },
@@ -450,6 +450,7 @@
             answers[currentQuestionIndex] = optionValues[index];
             nextBtn.disabled = false;
             
+            // 自动跳题功能
             if (answers[currentQuestionIndex] !== undefined && currentQuestionIndex === answers.filter(x=>x!==undefined).length-1) {
                 setTimeout(() => {
                     if (currentQuestionIndex < questions.length - 1) {
@@ -504,7 +505,9 @@
             }
         }
 
+        // 终极修复：分界点设为随机答题的平均得分0.6
         function showResult() {
+            // 保留全选一般的彩蛋
             const isAllNeutral = answers.every(val => val === 3);
             if (isAllNeutral) {
                 const egg = {
@@ -529,19 +532,23 @@
                 count[q.type]++;
             });
             
+            // 计算每个维度的得分率(0-1)
             const eScore = dim.E / (count.E * 5);
             const tScore = dim.T / (count.T * 5);
             const jScore = dim.J / (count.J * 5);
             const oScore = dim.O / (count.O * 5);
             
+            // 核心终极修复：分界点从0.5改为0.6
             const eType = eScore >= 0.6 ? "E" : "I";
             const tType = tScore >= 0.6 ? "T" : "F";
             const jType = jScore >= 0.6 ? "J" : "P";
             const oType = oScore >= 0.6 ? "O" : "W";
             const userCode = eType + tType + jType + oType;
             
+            // 直接根据维度组合找到对应人格
             const personality = personalities.find(p => p.code === userCode);
             
+            // 计算匹配度和命中数
             const eDiff = Math.abs(eScore - (eType === "E" ? 1 : 0));
             const tDiff = Math.abs(tScore - (tType === "T" ? 1 : 0));
             const jDiff = Math.abs(jScore - (jType === "J" ? 1 : 0));
@@ -575,7 +582,7 @@
                     useCORS: true,
                     backgroundColor: "#ffffff",
                     logging: false,
-                    allowTaint: false
+                    allowTaint: true
                 });
                 
                 btnGroup.style.display = "flex";
@@ -636,3 +643,4 @@
     </script>
 </body>
 </html>
+
