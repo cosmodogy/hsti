@@ -134,7 +134,6 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 8px rgba(100, 100, 100, 0.15);
-
         }
         .personality-title {
             font-size: 14px;
@@ -309,354 +308,395 @@
         </div>
     </div>
     <script>
-        const fullQuestionBank = [
-            // ==================== E 外向（先正向 true）====================
-    { text: "看到游戏里剧情爆出新设定或新CG，我喜欢立刻到游戏群或论坛和大家一起讨论。", type: "E", isPositive: true },
-    { text: "遇到刚刚来到东京的转光生，我会主动帮助他融入东京", type: "E", isPositive: true },
-    { text: "相比于自己看剧情，我觉得观看带弹幕的剧情录屏更加有趣", type: "E", isPositive: true },
-    { text: "参加交换留学来到其他学校后，我能很快与其他学生打成一片", type: "E", isPositive: true },
+        (function(){
+            // ---------- 题库 ----------
+            const fullQuestionBank = [
+                // E 外向（正向 true）
+                { text: "看到游戏里剧情爆出新设定或新CG，我喜欢立刻到游戏群或论坛和大家一起讨论。", type: "E", isPositive: true },
+                { text: "遇到刚刚来到东京的转光生，我会主动帮助他融入东京", type: "E", isPositive: true },
+                { text: "相比于自己看剧情，我觉得观看带弹幕的剧情录屏更加有趣", type: "E", isPositive: true },
+                { text: "参加交换留学来到其他学校后，我能很快与其他学生打成一片", type: "E", isPositive: true },
+                // E 内向（反向 false）
+                { text: "我不擅长参加线下活动，即使有条件去也不怎么会选择参加漫展或兽展", type: "E", isPositive: false },
+                { text: "我理解并赞同古文学长不愿意参加祭典的想法", type: "E", isPositive: false },
+                { text: "我习惯自己钻研享受游戏，从不关心游戏社区", type: "E", isPositive: false },
+                { text: "在神宿学园的日常中，我更享受一个人在天台度过午休时光", type: "E", isPositive: false },
+                // T 理性（正向 true）
+                { text: "相比于立绘和性格，抽卡时我更加注重角色的强度", type: "T", isPositive: true },
+                { text: "我不认为抽卡玄学是有用的", type: "T", isPositive: true },
+                { text: "如果角色强度很高，即使他完全不对自己xp我也会对他好感度很高", type: "T", isPositive: true },
+                { text: "如果牺牲自己或者其他某个个体就能拯救东京，我认为这个代价是值得的", type: "T", isPositive: true },
+                // T 感性（反向 false）
+                { text: "我会因为被角色在剧情中的表现打动而去专门练角色", type: "T", isPositive: false },
+                { text: "即使我喜欢的角色强度不济，我也愿意把他的练度拉到最高", type: "T", isPositive: false },
+                { text: "看到感人的剧情，我会被情节打动久久不能忘怀", type: "T", isPositive: false },
+                { text: "现在这个东京已经被折腾的不成样子了，我认为还不如趁早开始下一个轮回", type: "T", isPositive: false },
+                // J 判断（正向 true）
+                { text: "我会大致规划好抽卡安排，并严格执行", type: "J", isPositive: true },
+                { text: "我不擅长应付因幡和阿撒托斯那种喜欢恶作剧的性格", type: "J", isPositive: true },
+                { text: "跟吉力麦卡拉一样，我也喜欢一切都做好计划", type: "J", isPositive: true },
+                { text: "我喜欢井井有条的环境，即使没有阿形提醒我也有动力定期打扫自己的房间", type: "J", isPositive: true },
+                // J 知觉（反向 false）
+                { text: "我玩游戏很随意，即使断签、体力溢出或者少领了奖励也不会过分在意", type: "J", isPositive: false },
+                { text: "我经常在看某个活动的剧情时因为临时起意开始去看别的剧情", type: "J", isPositive: false },
+                { text: "我在配队时不怎么关注活动道具加成，能用就行", type: "J", isPositive: false },
+                { text: "游戏更新后，我会慢慢玩，不着急赶进度", type: "J", isPositive: false },
+                // O 秩序（正向 true）
+                { text: "我倾向于维持东京的游戏平稳地进行下去", type: "O", isPositive: true },
+                { text: "相比于放课后激烈的公会战，我还是更喜欢平静的日常", type: "O", isPositive: true },
+                { text: "承诺过的事情，我会竭尽全力遵守，不会轻易反悔", type: "O", isPositive: true },
+                { text: "我觉得藏王前辈宁愿留级也要去爬山的行为有些太过头了", type: "O", isPositive: true },
+                // O 混沌（反向 false）
+                { text: "我向往得真道的校园风气", type: "O", isPositive: false },
+                { text: "我喜欢玩一些比较小众的角色，研究非主流的配队", type: "O", isPositive: false },
+                { text: "相比于正派角色，我觉得亦正亦邪的角色甚至完全的反派会更有魅力", type: "O", isPositive: false },
+                { text: "相比于日常温馨的剧情，我更喜欢看那种充满极限反转、规则崩坏的刺激展开。", type: "O", isPositive: false }
+            ];
 
-    // E 内向（反向 false）
-    { text: "我不擅长参加线下活动，即使有条件去也不怎么会选择参加漫展或兽展", type: "E", isPositive: false },
-    { text: "我理解并赞同古文学长不愿意参加祭典的想法", type: "E", isPositive: false },
-    { text: "我习惯自己钻研享受游戏，从不关心游戏社区", type: "E", isPositive: false },
-    { text: "在神宿学园的日常中，我更享受一个人在天台度过午休时光", type: "E", isPositive: false },
+            // ---------- 人格库 ----------
+            const personalities = [
+                { code: "ETJO", charCode: "LICT", name: "里希特", element: "六本木的议长", color: "#D2B48C", bgGradient: "linear-gradient(135deg, #E6D5B8 0%, #D2B48C 100%)", desc: "你是外向凌厉的理性规划者，天生擅长洞察人心、煽动情绪，总能以冷静的逻辑直击他人软肋，凭借出色的表达力收拢绝对的认同。你像里希特一样，行事目标明确、步步为营，有着极强的规划力与掌控欲，布局自带章法。你深谙操控与博弈的本质，怀揣着深沉的谋略与野心，以理性为刃搭建自己的格局，你擅长利用规则，更擅长跳出规则，靠自己的算计牢牢主导着局面。" },
+                { code: "ETJW", charCode: "CLDE", name: "克劳德", element: "统帅池袋之人", color: "#B22222", bgGradient: "linear-gradient(135deg, #D23B3B 0%, #B22222 100%)", desc: "你是天生的统治者，生来便站在金字塔的顶端。你像克劳德一样，用黄金般的智慧编织秩序，用钢铁般的手段掌控全局。你的气场足以震慑全场，你的远见足以指引未来。或许王冠的重量，让你习惯了独断专行，偶尔会忽略他人的感受，但你永远充满激情的行为也毫无疑问吸引着别人。" },
+                { code: "ETPO", charCode: "TSKT", name: "特斯卡特利波卡", element: "最前线指挥官", color: "#483D8B", bgGradient: "linear-gradient(135deg, #6B5FB5 0%, #483D8B 100%)", desc: "理智而狂野，你擅长在混乱中寻找逻辑漏洞，是规则的解构者。你就像特斯卡特利波卡一样，自带外向张扬的强势气场，从不畏惧，享受纷繁复杂的混乱局面。你行事随性灵动、从不拘泥刻板僵化的章法，看似不受世俗规则的刻意牵绊，却始终坚守着内心笃定的理性秩序，绝非毫无底线的肆意妄为。你敢于打破不合理的既定规则与固化逻辑，在瞬息万变的变局中灵活调整步调，用清醒头脑剖析局势、掌控节奏，在解构虚浮规则、重塑自我节奏的路上，始终保持着理性与野性的完美平衡。" },
+                { code: "ETPW", charCode: "NYLT", name: "奈亚拉托提普", element: "潜伏而至的混沌", color: "#7FFFAA", bgGradient: "linear-gradient(135deg, #B2FFD6 0%, #7FFFAA 100%)", desc: "你是一个极具魅力的变数。你像奈亚拉托提普一样，用随性去瓦解僵化的秩序。世界对你来说一场永远不会结束的即兴游戏，你是那个最不可预测、也最让人欲罢不能的旧日支配者，永远带着漫不经心的笑容，游走在东京的街头巷尾，把刻板的规则变成笑话。没有人能猜到你下一步会做什么，因为连你自己都不知道，你只享受当下的快乐和混乱带来的刺激。" },
+                { code: "EFJO", charCode: "GYOB", name: "刑部", element: "妖狸头目", color: "#BDB76B", bgGradient: "linear-gradient(135deg, #D8D394 0%, #BDB76B 100%)", desc: "你是充满激情的秩序维护者，极其重视公会家人的情感羁绊。你像刑部一样，平日里是沉稳可靠的长辈角色，被公会的大家所信任着。你重视道义，无法对他人的困难置之不理，而一旦有人想对公会出手，你绝不会对他们手下留情。你恪守心中认定的正道与规矩，对破坏安稳者绝不姑息。" },
+                { code: "EFJW", charCode: "KRGN", name: "黑铁", element: "工科专业生", color: "#708090", bgGradient: "linear-gradient(90deg, #94A3B0 0%, #708090 100%)", desc: "你外表热情耀眼、待人温柔体贴，心里始终揣着清晰的目标与笃定的路线图。你像黑铁一样，兼具理工科的缜密条理与肌肉铸就的赤诚勇气，从不被刻板规则绑架，却会用自己的温柔与周密规划，守护视作家人的公会伙伴，践行属于工匠的理想。你笃定地规划前行的方向，沉心磨砺自身技术与力量，不屑屈从僵化的常理与无端的规训。" },
+                { code: "EFPO", charCode: "RYOT", name: "良太", element: "悠闲男高中生", color: "#A52A2A", bgGradient: "linear-gradient(135deg, #C94A4A 0%, #A52A2A 100%)", desc: "你是所有人的小太阳，热爱生活且极其看重同伴的感受。你像良太一样，用美食和笑容化解一切矛盾，是团队里永远的气氛担当。你性格开朗乐观，即使遇到再大的困难也能笑着面对。你虽然随性自在，但心里有自己的分寸和底线，会为了守护大家的快乐而主动妥协，愿意遵守那些能让所有人都开心的规则，是大家的伙伴。" },
+                { code: "EFPW", charCode: "BETE", name: "弁天", element: "亚文化女高中生", color: "#48D1CC", bgGradient: "linear-gradient(135deg, #7AE0DE 0%, #48D1CC 100%)", desc: "你是自带鲜活气场的行动派，天性外向热忱，始终渴望成为被关注的焦点，内心的情绪与喜好从不刻意掩藏。你像弁天一样，向来遵从感性本心做决策，不被刻板的条框裹挟，生活态度随性自在，从不愿被世俗规矩困住脚步。或许在旁人眼中你有些过于任性，但这也是你的魅力所在。你始终拥有随心所欲、遵从本心的勇气，活得通透又洒脱，永远跟着自己的心意自在前行。" },
+                { code: "ITJO", charCode: "TOJI", name: "冬治", element: "驱魔师", color: "#00BFFF", bgGradient: "linear-gradient(135deg, #4DD2FF 0%, #00BFFF 100%)", desc: "你是刻在骨子里的秩序守护者，冷静、坚定且外冷内热。你像冬治一样，把东京守护者的职责当成信仰，用最严格的标准要求自己，也守护着公会的底线。或许你过于固执，或许你嘴硬心软不会说话，但当危险来临时，那个平时最严厉的人，永远是第一个站出来挡在大家身前的人。" },
+                { code: "ITJW", charCode: "NOMD", name: "诺玛德", element: "为复仇燃烧的老虎", color: "#FFA500", bgGradient: "linear-gradient(135deg, #FFC14D 0%, #FFA500 100%)", desc: "你外表沉默孤僻，内心却极致理智清醒，目标笃定且行事遵于本心、是绝不向世俗低头的孤高之人。你像诺玛德一样，将心底的执念与理想尽数藏于冷峻寡言的外表之下，为达成目标，你会制定缜密严谨的计划步步为营，彻底摒弃无用的感性牵绊与世俗桎梏燃烧自己。你不屑顺从既定秩序与他人规训，执意挣脱所有束缚自身的枷锁，只坚守自我认定的准则，孤身一往无前，任凭外界非议与约束，也始终按自己的步调坚定前行，分毫不动摇。" },
+                { code: "ITPO", charCode: "MRTK", name: "戍孝", element: "三尺冰刀", color: "#6495ED", bgGradient: "linear-gradient(135deg, #94B4F5 0%, #6495ED 100%)", desc: "你是一个极度自律且重情重义的灵魂。你像戍孝一样，内心温柔敏感，极其珍视同伴间的羁绊，尤其是对你认定的“主公”。在日常生活中，你高度自律，相信只有通过不懈的修行才能获得保护他人的力量。你虽然有时显得单纯过了头，但这份纯粹的赤诚之心是公会中最宝贵的财富。" },
+                { code: "ITPW", charCode: "EBSU", name: "惠比寿", element: "清廉的垂钓者", color: "#FFB6C1", bgGradient: "linear-gradient(135deg, #FFD1D9 0%, #FFB6C1 100%)", desc: "内向、理性、随性且自由。你像惠比寿一样，习惯独自静观世事流转，以冷静清醒的目光洞悉本质。你与世界的距离若即若离，行事随心自在、不喜刻板规划，只遵从内心的理性判断，不愿被人情或规则束缚脚步，在独属于自己的节奏里悠然前行，在垂下鱼钩的时间里随波逐流，低调疏离却自有通透的处世之道。" },
+                { code: "IFJO", charCode: "MRIA", name: "玛丽亚", element: "虔诚的信徒", color: "#2E8B57", bgGradient: "linear-gradient(135deg, #4CAF78 0%, #2E8B57 100%)", desc: "内敛且坚定，你的人生就是一场关于信仰与契约的苦旅。你像玛丽亚一样，在沉默中坚守着虔诚的誓言，生活极度规律且富有仪式感。你心中有着不容动摇的信念与准则，凡事按自己的步调笃定前行，既恪守内心的道义秩序，也以柔软的感性守护着心中的信仰。从不轻易外露情绪，却始终以极致的执着践行承诺，在沉静的坚守中，一步一步走向自己认定的归途。" },
+                { code: "IFJW", charCode: "ONWK", name: "鬼若", element: "忠义的狂暴法师", color: "#FF0000", bgGradient: "linear-gradient(135deg, #333333 0%, #000000 100%)", desc: "你是缄默感性、执念深重的孤行者。你像鬼若一样，习惯将情绪与本心深藏，从不向外展露脆弱。你行事目标笃定、准则清晰，心中自有一套不可动摇的行事逻辑，从不会散漫随性、随波逐流；你不屑遵从世俗既定秩序，只追随内心的情感与执念前行，挣脱一切外界规则的捆绑。你以感性为内核锚定自己的方向，在无拘的独行中，守着独属于自己的信念与忠义。" },
+                { code: "IFPO", charCode: "JBVA", name: "阎波梵", element: "天祐的宝玉", color: "#D8BFD8", bgGradient: "linear-gradient(135deg, #E8D8E8 0%, #D8BFD8 100%)", desc: "你情感细腻且恪守原则，心性温和却尊崇规则。你像阎波梵一样，习惯以安静内敛的姿态待人，将温柔共情藏于沉稳的外表之下，心中自有清晰的道义准则与行事底线，从不会肆意妄为。你拥有着强大的力量，却始终坚守认可的秩序与约定，做事从容随性、稳妥周全，不愿打破安稳的平衡，也会默默守护身边珍视的人。即便不善热烈表达，也始终以柔软本心坚守底线，在松弛自在的步调里，守护着属于自己的平和与羁绊；或许有人视你为软弱，但也会有人珍惜你的温柔。" },
+                { code: "IFPW", charCode: "KNYS", name: "国芳", element: "同人作家", color: "#BA55D3", bgGradient: "linear-gradient(135deg, #D187E8 0%, #BA55D3 100%)", desc: "你沉浸在自我的世界中，随性且自由。你像国芳一样，不需要复杂的社交，也不受规则束缚，只是一心浸在毛茸茸中寻找属于自己的感性共鸣。或许你会因为沉浸在自己的世界中忘记全世界，或许你并不那么擅长复杂的人情世故，但你不迎合世俗的审美，也不在乎别人的评价，因为你清楚地明白自己的内心究竟想要什么，活得简单而纯粹。" }
+            ];
 
-    // ==================== T 理性（先正向 true）====================
-    { text: "相比于立绘和性格，抽卡时我更加注重角色的强度", type: "T", isPositive: true },
-    { text: "我不认为抽卡玄学是有用的", type: "T", isPositive: true },
-    { text: "如果角色强度很高，即使他完全不对自己xp我也会对他好感度很高", type: "T", isPositive: true },
-    { text: "如果牺牲自己或者其他某个个体就能拯救东京，我认为这个代价是值得的", type: "T", isPositive: true },
+            // ---------- 全局变量 ----------
+            let questions = [];
+            let currentQuestionIndex = 0;
+            let answers = [];
+            let generatedImageUrl = null;
+            const optionLabels = ["非常符合", "符合", "一般", "不符合", "非常不符合"];
+            const optionValues = [5, 4, 3, 2, 1];
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const saveBtn = document.getElementById("saveBtn");
 
-    // T 感性（反向 false）
-    { text: "我会因为被角色在剧情中的表现打动而去专门练角色", type: "T", isPositive: false },
-    { text: "即使我喜欢的角色强度不济，我也愿意把他的练度拉到最高", type: "T", isPositive: false },
-    { text: "看到感人的剧情，我会被情节打动久久不能忘怀", type: "T", isPositive: false },
-    { text: "现在这个东京已经被折腾的不成样子了，我认为还不如趁早开始下一个轮回", type: "T", isPositive: false },
-
-    // ==================== J 判断（先正向 true）====================
-    { text: "我会大致规划好抽卡安排，并严格执行", type: "J", isPositive: true },
-    { text: "我不擅长应付因幡和阿撒托斯那种喜欢恶作剧的性格", type: "J", isPositive: true },
-    { text: "跟吉力麦卡拉一样，我也喜欢一切都做好计划", type: "J", isPositive: true },
-    { text: "我喜欢井井有条的环境，即使没有阿形提醒我也有动力定期打扫自己的房间", type: "J", isPositive: true },
-
-    // J 知觉（反向 false）
-    { text: "我玩游戏很随意，即使断签、体力溢出或者少领了奖励也不会过分在意", type: "J", isPositive: false },
-    { text: "我经常在看某个活动的剧情时因为临时起意开始去看别的剧情", type: "J", isPositive: false },
-    { text: "我在配队时不怎么关注活动道具加成，能用就行", type: "J", isPositive: false },
-    { text: "游戏更新后，我会慢慢玩，不着急赶进度", type: "J", isPositive: false },
-
-    // ==================== O 秩序（先正向 true）====================
-    { text: "我倾向于维持东京的游戏平稳地进行下去", type: "O", isPositive: true },
-    { text: "相比于放课后激烈的公会战，我还是更喜欢平静的日常", type: "O", isPositive: true },
-    { text: "承诺过的事情，我会竭尽全力遵守，不会轻易反悔", type: "O", isPositive: true },
-    { text: "我觉得藏王前辈宁愿留级也要去爬山的行为有些太过头了", type: "O", isPositive: true },
-
-    // O 混沌（反向 false）
-    { text: "我向往得真道的校园风气", type: "O", isPositive: false },
-    { text: "我喜欢玩一些比较小众的角色，研究非主流的配队", type: "O", isPositive: false },
-    { text: "相比于正派角色，我觉得亦正亦邪的角色甚至完全的反派会更有魅力", type: "O", isPositive: false },
-{ text: "相比于日常温馨的剧情，我更喜欢看那种充满极限反转、规则崩坏的刺激展开。", type: "O", isPositive: false }
-        ];
-        const personalities = [
-            { code: "ETJO", charCode: "LICT", name: "里希特", element: "六本木的议长", color: "#D2B48C", bgGradient: "linear-gradient(135deg, #E6D5B8 0%, #D2B48C 100%)", desc: "你是外向凌厉的理性规划者，天生擅长洞察人心、煽动情绪，总能以冷静的逻辑直击他人软肋，凭借出色的表达力收拢绝对的认同。你像里希特一样，行事目标明确、步步为营，有着极强的规划力与掌控欲，布局自带章法。你深谙操控与博弈的本质，怀揣着深沉的谋略与野心，以理性为刃搭建自己的格局，你擅长利用规则，更擅长跳出规则，靠自己的算计牢牢主导着局面。" },
-            { code: "ETJW", charCode: "CLDE", name: "克劳德", element: "统帅池袋之人", color: "#B22222", bgGradient: "linear-gradient(135deg, #D23B3B 0%, #B22222 100%)", desc: "你是天生的统治者，生来便站在金字塔的顶端。你像克劳德一样，用黄金般的智慧编织秩序，用钢铁般的手段掌控全局。你的气场足以震慑全场，你的远见足以指引未来。或许王冠的重量，让你习惯了独断专行，偶尔会忽略他人的感受，但你永远充满激情的行为也毫无疑问吸引着别人。" },
-            { code: "ETPO", charCode: "TSKT", name: "特斯卡特利波卡", element: "最前线指挥官", color: "#483D8B", bgGradient: "linear-gradient(135deg, #6B5FB5 0%, #483D8B 100%)", desc: "理智而狂野，你擅长在混乱中寻找逻辑漏洞，是规则的解构者。你就像特斯卡特利波卡一样，自带外向张扬的强势气场，从不畏惧，享受纷繁复杂的混乱局面。你行事随性灵动、从不拘泥刻板僵化的章法，看似不受世俗规则的刻意牵绊，却始终坚守着内心笃定的理性秩序，绝非毫无底线的肆意妄为。你敢于打破不合理的既定规则与固化逻辑，在瞬息万变的变局中灵活调整步调，用清醒头脑剖析局势、掌控节奏，在解构虚浮规则、重塑自我节奏的路上，始终保持着理性与野性的完美平衡。" },
-            { code: "ETPW", charCode: "NYLT", name: "奈亚拉托提普", element: "潜伏而至的混沌", color: "#7FFFAA", bgGradient: "linear-gradient(135deg, #B2FFD6 0%, #7FFFAA 100%)", desc: "你是一个极具魅力的变数。你像奈亚拉托提普一样，用随性去瓦解僵化的秩序。世界对你来说一场永远不会结束的即兴游戏，你是那个最不可预测、也最让人欲罢不能的旧日支配者，永远带着漫不经心的笑容，游走在东京的街头巷尾，把刻板的规则变成笑话。没有人能猜到你下一步会做什么，因为连你自己都不知道，你只享受当下的快乐和混乱带来的刺激。" },
-            { code: "EFJO", charCode: "GYOB", name: "刑部", element: "妖狸头目", color: "#BDB76B", bgGradient: "linear-gradient(135deg, #D8D394 0%, #BDB76B 100%)", desc: "你是充满激情的秩序维护者，极其重视公会家人的情感羁绊。你像刑部一样，平日里是沉稳可靠的长辈角色，被公会的大家所信任着。你重视道义，无法对他人的困难置之不理，而一旦有人想对公会出手，你绝不会对他们手下留情。你恪守心中认定的正道与规矩，对破坏安稳者绝不姑息。" },
-            { code: "EFJW", charCode: "KRGN", name: "黑铁", element: "工科专业生", color: "#708090", bgGradient: "linear-gradient(90deg, #94A3B0 0%, #708090 100%)", desc: "你外表热情耀眼、待人温柔体贴，心里始终揣着清晰的目标与笃定的路线图。你像黑铁一样，兼具理工科的缜密条理与肌肉铸就的赤诚勇气，从不被刻板规则绑架，却会用自己的温柔与周密规划，守护视作家人的公会伙伴，践行属于工匠的理想。你笃定地规划前行的方向，沉心磨砺自身技术与力量，不屑屈从僵化的常理与无端的规训。" },
-            { code: "EFPO", charCode: "RYOT", name: "良太", element: "悠闲男高中生", color: "#A52A2A", bgGradient: "linear-gradient(135deg, #C94A4A 0%, #A52A2A 100%)", desc: "你是所有人的小太阳，热爱生活且极其看重同伴的感受。你像良太一样，用美食和笑容化解一切矛盾，是团队里永远的气氛担当。你性格开朗乐观，即使遇到再大的困难也能笑着面对。你虽然随性自在，但心里有自己的分寸和底线，会为了守护大家的快乐而主动妥协，愿意遵守那些能让所有人都开心的规则，是大家的伙伴。" },
-            { code: "EFPW", charCode: "BETE", name: "弁天", element: "亚文化女高中生", color: "#48D1CC", bgGradient: "linear-gradient(135deg, #7AE0DE 0%, #48D1CC 100%)", desc: "你是自带鲜活气场的行动派，天性外向热忱，始终渴望成为被关注的焦点，内心的情绪与喜好从不刻意掩藏。你像弁天一样，向来遵从感性本心做决策，不被刻板的条框裹挟，生活态度随性自在，从不愿被世俗规矩困住脚步。或许在旁人眼中你有些过于任性，但这也是你的魅力所在。你始终拥有随心所欲、遵从本心的勇气，活得通透又洒脱，永远跟着自己的心意自在前行。" },
-            { code: "ITJO", charCode: "TOJI", name: "冬治", element: "驱魔师", color: "#00BFFF", bgGradient: "linear-gradient(135deg, #4DD2FF 0%, #00BFFF 100%)", desc: "你是刻在骨子里的秩序守护者，冷静、坚定且外冷内热。你像冬治一样，把东京守护者的职责当成信仰，用最严格的标准要求自己，也守护着公会的底线。或许你过于固执，或许你嘴硬心软不会说话，但当危险来临时，那个平时最严厉的人，永远是第一个站出来挡在大家身前的人。" },
-            { code: "ITJW", charCode: "NOMD", name: "诺玛德", element: "为复仇燃烧的老虎", color: "#FFA500", bgGradient: "linear-gradient(135deg, #FFC14D 0%, #FFA500 100%)", desc: "你外表沉默孤僻，内心却极致理智清醒，目标笃定且行事遵于本心、是绝不向世俗低头的孤高之人。你像诺玛德一样，将心底的执念与理想尽数藏于冷峻寡言的外表之下，为达成目标，你会制定缜密严谨的计划步步为营，彻底摒弃无用的感性牵绊与世俗桎梏燃烧自己。你不屑顺从既定秩序与他人规训，执意挣脱所有束缚自身的枷锁，只坚守自我认定的准则，孤身一往无前，任凭外界非议与约束，也始终按自己的步调坚定前行，分毫不动摇。" },
-            { code: "ITPO", charCode: "MRTK", name: "戍孝", element: "三尺冰刀", color: "#6495ED", bgGradient: "linear-gradient(135deg, #94B4F5 0%, #6495ED 100%)", desc: "你是一个极度自律且重情重义的灵魂。你像戍孝一样，内心温柔敏感，极其珍视同伴间的羁绊，尤其是对你认定的“主公”。在日常生活中，你高度自律，相信只有通过不懈的修行才能获得保护他人的力量。你虽然有时显得单纯过了头，但这份纯粹的赤诚之心是公会中最宝贵的财富。" },
-            { code: "ITPW", charCode: "EBSU", name: "惠比寿", element: "清廉的垂钓者", color: "#FFB6C1", bgGradient: "linear-gradient(135deg, #FFD1D9 0%, #FFB6C1 100%)", desc: "内向、理性、随性且自由。你像惠比寿一样，习惯独自静观世事流转，以冷静清醒的目光洞悉本质。你与世界的距离若即若离，行事随心自在、不喜刻板规划，只遵从内心的理性判断，不愿被人情或规则束缚脚步，在独属于自己的节奏里悠然前行，在垂下鱼钩的时间里随波逐流，低调疏离却自有通透的处世之道。" },
-            { code: "IFJO", charCode: "MRIA", name: "玛丽亚", element: "虔诚的信徒", color: "#2E8B57", bgGradient: "linear-gradient(135deg, #4CAF78 0%, #2E8B57 100%)", desc: "内敛且坚定，你的人生就是一场关于信仰与契约的苦旅。你像玛丽亚一样，在沉默中坚守着虔诚的誓言，生活极度规律且富有仪式感。你心中有着不容动摇的信念与准则，凡事按自己的步调笃定前行，既恪守内心的道义秩序，也以柔软的感性守护着心中的信仰。从不轻易外露情绪，却始终以极致的执着践行承诺，在沉静的坚守中，一步一步走向自己认定的归途。" },
-            { code: "IFJW", charCode: "ONWK", name: "鬼若", element: "忠义的狂暴法师", color: "#FF0000", bgGradient: "linear-gradient(135deg, #333333 0%, #000000 100%)", desc: "你是缄默感性、执念深重的孤行者。你像鬼若一样，习惯将情绪与本心深藏，从不向外展露脆弱。你行事目标笃定、准则清晰，心中自有一套不可动摇的行事逻辑，从不会散漫随性、随波逐流；你不屑遵从世俗既定秩序，只追随内心的情感与执念前行，挣脱一切外界规则的捆绑。你以感性为内核锚定自己的方向，在无拘的独行中，守着独属于自己的信念与忠义。" },
-            { code: "IFPO", charCode: "JBVA", name: "阎波梵", element: "天祐的宝玉", color: "#D8BFD8", bgGradient: "linear-gradient(135deg, #E8D8E8 0%, #D8BFD8 100%)", desc: "你情感细腻且恪守原则，心性温和却尊崇规则。你像阎波梵一样，习惯以安静内敛的姿态待人，将温柔共情藏于沉稳的外表之下，心中自有清晰的道义准则与行事底线，从不会肆意妄为。你拥有着强大的力量，却始终坚守认可的秩序与约定，做事从容随性、稳妥周全，不愿打破安稳的平衡，也会默默守护身边珍视的人。即便不善热烈表达，也始终以柔软本心坚守底线，在松弛自在的步调里，守护着属于自己的平和与羁绊；或许有人视你为软弱，但也会有人珍惜你的温柔。" },
-            { code: "IFPW", charCode: "KNYS", name: "国芳", element: "同人作家", color: "#BA55D3", bgGradient: "linear-gradient(135deg, #D187E8 0%, #BA55D3 100%)", desc: "你沉浸在自我的世界中，随性且自由。你像国芳一样，不需要复杂的社交，也不受规则束缚，只是一心浸在毛茸茸中寻找属于自己的感性共鸣。或许你会因为沉浸在自己的世界中忘记全世界，或许你并不那么擅长复杂的人情世故，但你不迎合世俗的审美，也不在乎别人的评价，因为你清楚地明白自己的内心究竟想要什么，活得简单而纯粹。" }
-        ];
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let answers = [];
-        let generatedImageUrl = null;
-        const optionLabels = ["非常符合", "符合", "一般", "不符合", "非常不符合"];
-        const optionValues = [5, 4, 3, 2, 1];
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-        const saveBtn = document.getElementById("saveBtn");
-
-        // 均衡抽取正负向题目，每个维度2正2负1随机
-        function getRandomQuestions() {
-            const grouped = {
-                E: { pos: fullQuestionBank.filter(q => q.type === "E" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "E" && !q.isPositive) },
-                T: { pos: fullQuestionBank.filter(q => q.type === "T" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "T" && !q.isPositive) },
-                J: { pos: fullQuestionBank.filter(q => q.type === "J" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "J" && !q.isPositive) },
-                O: { pos: fullQuestionBank.filter(q => q.type === "O" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "O" && !q.isPositive) }
-            };
-
-            const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
-            let selected = [];
-
-            Object.values(grouped).forEach(dim => {
-                selected.push(...pick(dim.pos, 2));
-                selected.push(...pick(dim.neg, 2));
-                const remaining = [...dim.pos, ...dim.neg].filter(q => !selected.includes(q));
-                if (remaining.length > 0) {
-                    selected.push(...pick(remaining, 1));
-                }
-            });
-
-            return selected.sort(() => Math.random() - 0.5);
-        }
-
-        function init() {
-            questions = getRandomQuestions();
-            currentQuestionIndex = 0;
-            answers = [];
-            generatedImageUrl = null;
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = questions[currentQuestionIndex];
-            document.getElementById("questionText").textContent = `Q${currentQuestionIndex + 1}/${questions.length}：${q.text}`;
-            document.getElementById("progressFill").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
-
-            const container = document.getElementById("optionsContainer");
-            container.innerHTML = "";
-            optionLabels.forEach((label, i) => {
-                const div = document.createElement("div");
-                div.className = "option";
-                div.textContent = label;
-                div.onclick = () => selectOption(i);
-                container.appendChild(div);
-            });
-
-            const savedAnswer = answers[currentQuestionIndex];
-            if (savedAnswer !== undefined) {
-                const savedIndex = optionValues.indexOf(savedAnswer);
-                const options = document.querySelectorAll(".option");
-                options[savedIndex].classList.add("selected");
-                options[savedIndex].style.backgroundColor = "#667eea";
-                options[savedIndex].style.borderColor = "#667eea";
-                options[savedIndex].style.color = "#fff";
-                nextBtn.disabled = false;
-            } else {
-                nextBtn.disabled = true;
-            }
-
-            prevBtn.disabled = currentQuestionIndex === 0;
-            nextBtn.textContent = currentQuestionIndex === questions.length - 1 ? "提交" : "下一题";
-        }
-
-        function selectOption(index) {
-            const options = document.querySelectorAll(".option");
-            options.forEach(opt => {
-                opt.classList.remove("selected");
-                opt.style.backgroundColor = "";
-                opt.style.borderColor = "#e0e0e0";
-                opt.style.color = "";
-            });
-
-            const sel = options[index];
-            sel.classList.add("selected");
-            sel.style.backgroundColor = "#667eea";
-            sel.style.borderColor = "#667eea";
-            sel.style.color = "#fff";
-            answers[currentQuestionIndex] = optionValues[index];
-            nextBtn.disabled = false;
-
-            // 自动跳题功能
-            if (answers[currentQuestionIndex] !== undefined && currentQuestionIndex === answers.filter(x=>x!==undefined).length-1) {
-                setTimeout(() => {
-                    if (currentQuestionIndex < questions.length - 1) {
-                        currentQuestionIndex++;
-                        showQuestion();
-                    } else {
-                        showResult();
-                    }
-                }, 30);
-            }
-        }
-
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion();
-            }
-        }
-
-        function renderResult(personality, matchRate, hitNum) {
-            document.getElementById("quizPage").style.display = "none";
-            document.getElementById("resultPage").style.display = "block";
-            document.getElementById("characterCard").style.background = personality.bgGradient;
-
-            const imgEl = document.getElementById("personalityImage");
-            if (personality.charCode === "????") {
-                imgEl.style.display = "none";
-            } else {
-                imgEl.style.display = "block";
-                imgEl.src = `images/${personality.charCode}.png`;
-            }
-
-            document.getElementById("elementTag").textContent = personality.element;
-            document.getElementById("elementTag").style.color = personality.color;
-            document.getElementById("personalityName").textContent = `${personality.charCode}（${personality.name}型）`;
-            document.getElementById("matchInfo").textContent = `匹配度 ${matchRate}% · 命中 ${hitNum}/4 维`;
-            document.getElementById("matchInfo").style.backgroundColor = `${personality.color}20`;
-            document.getElementById("matchInfo").style.color = personality.color;
-            document.getElementById("interpretationText").textContent = personality.desc;
-            document.getElementById("restartBtn").style.background = "linear-gradient(90deg, #e0e0e0, #c0c0c0)";
-            document.getElementById("saveBtn").style.background = personality.bgGradient;
-
-            const hintText = document.getElementById("hintText");
-            if (matchRate >= 90) {
-                hintText.textContent = "完美匹配！这就是你的本命东放人格。";
-            } else if (matchRate >= 75) {
-                hintText.textContent = "维度匹配较高。";
-            } else if (matchRate >= 60) {
-                hintText.textContent = "有一定匹配度。";
-            } else {
-                hintText.textContent = "匹配度一般。";
-            }
-        }
-
-        // 
-        function showResult() {
-            // 
-            const isAllNeutral = answers.every(val => val === 3);
-            if (isAllNeutral) {
-                const egg = {
-                    charCode: "????",
-                    name: "召唤师",
-                    element: "新来的转校生",
-                    color: "#FFFFFF",
-                    bgGradient: "linear-gradient(135deg, #EEEEEE 0%, #EEEEEE 100%)",
-                    desc: "今日方知我是我。"
+            // ---------- 随机抽题（2正2反+1随机）----------
+            function getRandomQuestions() {
+                const grouped = {
+                    E: { pos: fullQuestionBank.filter(q => q.type === "E" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "E" && !q.isPositive) },
+                    T: { pos: fullQuestionBank.filter(q => q.type === "T" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "T" && !q.isPositive) },
+                    J: { pos: fullQuestionBank.filter(q => q.type === "J" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "J" && !q.isPositive) },
+                    O: { pos: fullQuestionBank.filter(q => q.type === "O" && q.isPositive), neg: fullQuestionBank.filter(q => q.type === "O" && !q.isPositive) }
                 };
-                renderResult(egg, 100, 4);
-                return;
-            }
 
-            const dim = { E: 0, T: 0, J: 0, O: 0 };
-            const count = { E: 0, T: 0, J: 0, O: 0 };
+                const pick = (arr, n) => [...arr].sort(() => Math.random() - 0.5).slice(0, n);
+                let selected = [];
 
-            questions.forEach((q, i) => {
-                let v = answers[i];
-                if (!q.isPositive) v = 6 - v;
-                dim[q.type] += v;
-                count[q.type]++;
-            });
-
-            // 计算每个维度的得分率(0-1)
-            const eScore = dim.E / (count.E * 5);
-            const tScore = dim.T / (count.T * 5);
-            const jScore = dim.J / (count.J * 5);
-            const oScore = dim.O / (count.O * 5);
-
-            // 
-            const eType = eScore >= 0.5 ? "E" : "I";
-            const tType = tScore >= 0.5 ? "T" : "F";
-            const jType = jScore >= 0.5 ? "J" : "P";
-            const oType = oScore >= 0.5 ? "O" : "W";
-            const userCode = eType + tType + jType + oType;
-
-            // 直接根据维度组合找到对应人格
-            const personality = personalities.find(p => p.code === userCode);
-
-            // 计算匹配度和命中数
-            const eDiff = Math.abs(eScore - (eType === "E" ? 1 : 0));
-            const tDiff = Math.abs(tScore - (tType === "T" ? 1 : 0));
-            const jDiff = Math.abs(jScore - (jType === "J" ? 1 : 0));
-            const oDiff = Math.abs(oScore - (oType === "O" ? 1 : 0));
-            const totalDiff = eDiff + tDiff + jDiff + oDiff;
-            const matchRate = Math.round(100 - (totalDiff / 4 * 100));
-            const hitCount = [eDiff, tDiff, jDiff, oDiff].filter(d => d < 0.5).length;
-
-            renderResult(personality, matchRate, hitCount);
-        }
-
-        async function generatePreviewImage() {
-            saveBtn.disabled = true;
-            saveBtn.textContent = "正在生成图片...";
-
-            try {
-                const container = document.getElementById("resultContainer");
-                const btnGroup = document.querySelector(".result-btn-group");
-                btnGroup.style.display = "none";
-
-                const img = document.getElementById("personalityImage");
-                if (img.style.display !== "none" && !img.complete) {
-                    await new Promise(resolve => {
-                        img.onload = resolve;
-                        img.onerror = resolve;
-                    });
-                }
-
-                const canvas = await html2canvas(container, {
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: "#ffffff",
-                    logging: false,
-                    allowTaint: true
+                Object.values(grouped).forEach(dim => {
+                    selected.push(...pick(dim.pos, 2));
+                    selected.push(...pick(dim.neg, 2));
+                    const remaining = [...dim.pos, ...dim.neg].filter(q => !selected.includes(q));
+                    if (remaining.length > 0) {
+                        selected.push(...pick(remaining, 1));
+                    }
                 });
 
-                btnGroup.style.display = "flex";
-                generatedImageUrl = canvas.toDataURL("image/webp");
+                return selected.sort(() => Math.random() - 0.5);
+            }
 
-                document.getElementById("previewImage").src = generatedImageUrl;
-                document.getElementById("imagePreview").style.display = "flex";
+            // ---------- 初始化 ----------
+            function init() {
+                questions = getRandomQuestions();
+                currentQuestionIndex = 0;
+                answers = [];
+                generatedImageUrl = null;
+                showQuestion();
+            }
 
-                saveBtn.textContent = "生成保存图片";
-                saveBtn.disabled = false;
-            } catch (error) {
-                console.error("生成图片失败:", error);
-                saveBtn.textContent = "生成失败，请重试";
-                setTimeout(() => {
+            // ---------- 显示题目 ----------
+            function showQuestion() {
+                const q = questions[currentQuestionIndex];
+                document.getElementById("questionText").textContent = `Q${currentQuestionIndex + 1}/${questions.length}：${q.text}`;
+                document.getElementById("progressFill").style.width = `${((currentQuestionIndex + 1) / questions.length) * 100}%`;
+
+                const container = document.getElementById("optionsContainer");
+                container.innerHTML = "";
+                optionLabels.forEach((label, i) => {
+                    const div = document.createElement("div");
+                    div.className = "option";
+                    div.textContent = label;
+                    div.onclick = () => selectOption(i);
+                    container.appendChild(div);
+                });
+
+                const savedAnswer = answers[currentQuestionIndex];
+                if (savedAnswer !== undefined) {
+                    const savedIndex = optionValues.indexOf(savedAnswer);
+                    const options = document.querySelectorAll(".option");
+                    options[savedIndex].classList.add("selected");
+                    options[savedIndex].style.backgroundColor = "#667eea";
+                    options[savedIndex].style.borderColor = "#667eea";
+                    options[savedIndex].style.color = "#fff";
+                    nextBtn.disabled = false;
+                } else {
+                    nextBtn.disabled = true;
+                }
+
+                prevBtn.disabled = currentQuestionIndex === 0;
+                nextBtn.textContent = currentQuestionIndex === questions.length - 1 ? "提交" : "下一题";
+            }
+
+            // ---------- 选择选项（带自动跳题）----------
+            function selectOption(index) {
+                const options = document.querySelectorAll(".option");
+                options.forEach(opt => {
+                    opt.classList.remove("selected");
+                    opt.style.backgroundColor = "";
+                    opt.style.borderColor = "#e0e0e0";
+                    opt.style.color = "";
+                });
+
+                const sel = options[index];
+                sel.classList.add("selected");
+                sel.style.backgroundColor = "#667eea";
+                sel.style.borderColor = "#667eea";
+                sel.style.color = "#fff";
+                answers[currentQuestionIndex] = optionValues[index];
+                nextBtn.disabled = false;
+
+                // 自动跳转下一题
+                if (answers[currentQuestionIndex] !== undefined && currentQuestionIndex === answers.filter(x => x !== undefined).length - 1) {
+                    setTimeout(() => {
+                        if (currentQuestionIndex < questions.length - 1) {
+                            currentQuestionIndex++;
+                            showQuestion();
+                        } else {
+                            showResult();
+                        }
+                    }, 30);
+                }
+            }
+
+            // ---------- 上一题 ----------
+            function prevQuestion() {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    showQuestion();
+                }
+            }
+
+            // ---------- 渲染结果（保持原有UI风格）----------
+            function renderResult(personality, matchRate, hitNum) {
+                document.getElementById("quizPage").style.display = "none";
+                document.getElementById("resultPage").style.display = "block";
+                document.getElementById("characterCard").style.background = personality.bgGradient;
+
+                const imgEl = document.getElementById("personalityImage");
+                if (personality.charCode === "????") {
+                    imgEl.style.display = "none";
+                } else {
+                    imgEl.style.display = "block";
+                    imgEl.src = `images/${personality.charCode}.webp`;   // 使用 webp 格式
+                }
+
+                document.getElementById("elementTag").textContent = personality.element;
+                document.getElementById("elementTag").style.color = personality.color;
+                document.getElementById("personalityName").textContent = `${personality.charCode}（${personality.name}型）`;
+                document.getElementById("matchInfo").textContent = `匹配度 ${matchRate}% · 命中 ${hitNum}/4 维`;
+                document.getElementById("matchInfo").style.backgroundColor = `${personality.color}20`;
+                document.getElementById("matchInfo").style.color = personality.color;
+                document.getElementById("interpretationText").textContent = personality.desc;
+                document.getElementById("restartBtn").style.background = "linear-gradient(90deg, #e0e0e0, #c0c0c0)";
+                document.getElementById("saveBtn").style.background = personality.bgGradient;
+
+                const hintText = document.getElementById("hintText");
+                if (matchRate >= 90) {
+                    hintText.textContent = "完美匹配！这就是你的本命东放人格。";
+                } else if (matchRate >= 75) {
+                    hintText.textContent = "维度匹配较高。";
+                } else if (matchRate >= 60) {
+                    hintText.textContent = "有一定匹配度。";
+                } else {
+                    hintText.textContent = "匹配度一般。";
+                }
+            }
+
+            // ---------- 计算得分 & 距离匹配算法 ----------
+            function showResult() {
+                // 彩蛋：全选“一般”（值=3）或全部答案相同且为3
+                const isAllNeutral = answers.every(val => val === 3);
+                if (isAllNeutral) {
+                    const egg = {
+                        charCode: "????",
+                        name: "召唤师",
+                        element: "新来的转校生",
+                        color: "#FFFFFF",
+                        bgGradient: "linear-gradient(135deg, #EEEEEE 0%, #EEEEEE 100%)",
+                        desc: "今日方知我是我。"
+                    };
+                    renderResult(egg, 100, 4);
+                    return;
+                }
+
+                const dim = { E: 0, T: 0, J: 0, O: 0 };
+                const count = { E: 0, T: 0, J: 0, O: 0 };
+
+                questions.forEach((q, i) => {
+                    let v = answers[i];
+                    if (!q.isPositive) v = 6 - v;
+                    dim[q.type] += v;
+                    count[q.type]++;
+                });
+
+                // 归一化得分率 (0~1)
+                const eScore = dim.E / (count.E * 5);
+                const tScore = dim.T / (count.T * 5);
+                const jScore = dim.J / (count.J * 5);
+                const oScore = dim.O / (count.O * 5);
+
+                const userVector = [eScore, tScore, jScore, oScore];
+
+                // 构建每种人格的理想向量 (正向=1, 反向=0)
+                const idealVectors = personalities.map(p => ({
+                    code: p.code,
+                    vector: [
+                        p.code[0] === 'E' ? 1 : 0,
+                        p.code[1] === 'T' ? 1 : 0,
+                        p.code[2] === 'J' ? 1 : 0,
+                        p.code[3] === 'O' ? 1 : 0
+                    ]
+                }));
+
+                // 计算欧几里得距离，选出最小值
+                let minDist = Infinity;
+                let bestCode = "ETJO";  // 默认
+
+                idealVectors.forEach(item => {
+                    const dist = Math.sqrt(
+                        Math.pow(userVector[0] - item.vector[0], 2) +
+                        Math.pow(userVector[1] - item.vector[1], 2) +
+                        Math.pow(userVector[2] - item.vector[2], 2) +
+                        Math.pow(userVector[3] - item.vector[3], 2)
+                    );
+                    if (dist < minDist) {
+                        minDist = dist;
+                        bestCode = item.code;
+                    }
+                });
+
+                const bestPersonality = personalities.find(p => p.code === bestCode);
+
+                // 将距离映射为匹配度 (最大距离 √(1^2*4)=2，最小0)
+                const maxDist = 2;
+                const matchRate = Math.round(100 - (minDist / maxDist) * 100);
+
+                // 计算命中维度数 (距离<0.5视为倾向一致)
+                const idealVec = idealVectors.find(v => v.code === bestCode).vector;
+                const hitCount = userVector.reduce((acc, val, idx) => {
+                    return acc + (Math.abs(val - idealVec[idx]) < 0.5 ? 1 : 0);
+                }, 0);
+
+                renderResult(bestPersonality, matchRate, hitCount);
+            }
+
+            // ---------- 生成预览图片 ----------
+            async function generatePreviewImage() {
+                saveBtn.disabled = true;
+                saveBtn.textContent = "正在生成图片...";
+
+                try {
+                    const container = document.getElementById("resultContainer");
+                    const btnGroup = document.querySelector(".result-btn-group");
+                    btnGroup.style.display = "none";
+
+                    const img = document.getElementById("personalityImage");
+                    if (img.style.display !== "none" && !img.complete) {
+                        await new Promise(resolve => {
+                            img.onload = resolve;
+                            img.onerror = resolve;
+                        });
+                    }
+
+                    const canvas = await html2canvas(container, {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: "#ffffff",
+                        logging: false,
+                        allowTaint: true
+                    });
+
+                    btnGroup.style.display = "flex";
+                    generatedImageUrl = canvas.toDataURL("image/webp");
+
+                    document.getElementById("previewImage").src = generatedImageUrl;
+                    document.getElementById("imagePreview").style.display = "flex";
+
                     saveBtn.textContent = "生成保存图片";
                     saveBtn.disabled = false;
-                }, 2000);
-                const btnGroup = document.querySelector(".result-btn-group");
-                if (btnGroup) btnGroup.style.display = "flex";
+                } catch (error) {
+                    console.error("生成图片失败:", error);
+                    saveBtn.textContent = "生成失败，请重试";
+                    setTimeout(() => {
+                        saveBtn.textContent = "生成保存图片";
+                        saveBtn.disabled = false;
+                    }, 2000);
+                    const btnGroup = document.querySelector(".result-btn-group");
+                    if (btnGroup) btnGroup.style.display = "flex";
+                }
             }
-        }
 
-        function downloadImage() {
-            if (!generatedImageUrl) return;
+            // ---------- 下载图片 ----------
+            function downloadImage() {
+                if (!generatedImageUrl) return;
+                const link = document.createElement("a");
+                link.download = `HSTI东放人格测试_${document.getElementById("personalityName").textContent}.png`;
+                link.href = generatedImageUrl;
+                link.click();
+            }
 
-            const link = document.createElement("a");
-            link.download = `HSTI东放人格测试_${document.getElementById("personalityName").textContent}.png`;
-            link.href = generatedImageUrl;
-            link.click();
-        }
+            // ---------- 关闭预览 ----------
+            function closePreview() {
+                document.getElementById("imagePreview").style.display = "none";
+            }
 
-        function closePreview() {
-            document.getElementById("imagePreview").style.display = "none";
-        }
-
-        function restartTest() {
-            closePreview();
-            init();
-            document.getElementById("quizPage").style.display = "block";
-            document.getElementById("resultPage").style.display = "none";
-        }
-
-        nextBtn.onclick = () => {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion();
-            } else showResult();
-        };
-        prevBtn.onclick = prevQuestion;
-
-        document.getElementById("imagePreview").addEventListener("click", function(e) {
-            if (e.target === this) {
+            // ---------- 重新测试 ----------
+            function restartTest() {
                 closePreview();
+                init();
+                document.getElementById("quizPage").style.display = "block";
+                document.getElementById("resultPage").style.display = "none";
             }
-        });
 
-        init();
+            // ---------- 绑定事件 ----------
+            nextBtn.onclick = () => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    showQuestion();
+                } else {
+                    showResult();
+                }
+            };
+            prevBtn.onclick = prevQuestion;
+
+            document.getElementById("imagePreview").addEventListener("click", function(e) {
+                if (e.target === this) {
+                    closePreview();
+                }
+            });
+
+            // 将重启函数挂载到 window 以便 onclick 调用
+            window.restartTest = restartTest;
+            window.generatePreviewImage = generatePreviewImage;
+            window.downloadImage = downloadImage;
+            window.closePreview = closePreview;
+
+            // 启动！
+            init();
+        })();
     </script>
 </body>
 </html>
