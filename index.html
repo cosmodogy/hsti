@@ -522,9 +522,9 @@
             }
         }
 
-        // 终极修复：分界点设为随机答题的平均得分0.6
+        // 
         function showResult() {
-            // 保留全选一般的彩蛋
+            // 
             const isAllNeutral = answers.every(val => val === 3);
             if (isAllNeutral) {
                 const egg = {
@@ -555,11 +555,11 @@
             const jScore = dim.J / (count.J * 5);
             const oScore = dim.O / (count.O * 5);
 
-            // 核心终极修复：分界点从0.5改为0.6
-            const eType = eScore >= 0.6 ? "E" : "I";
-            const tType = tScore >= 0.6 ? "T" : "F";
-            const jType = jScore >= 0.6 ? "J" : "P";
-            const oType = oScore >= 0.6 ? "O" : "W";
+            // 
+            const eType = eScore >= 0.5 ? "E" : "I";
+            const tType = tScore >= 0.5 ? "T" : "F";
+            const jType = jScore >= 0.5 ? "J" : "P";
+            const oType = oScore >= 0.5 ? "O" : "W";
             const userCode = eType + tType + jType + oType;
 
             // 直接根据维度组合找到对应人格
