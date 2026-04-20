@@ -547,16 +547,16 @@
 
                 questions.forEach((q, i) => {
                     let v = answers[i];
-                    if (!q.isPositive) v = 6 - v;
+                    if (!q.isPositive) v =  -v;
                     dim[q.type] += v;
                     count[q.type]++;
                 });
 
                 // 归一化得分率 (0~1)
-                const eScore = dim.E / (count.E * 5);
-                const tScore = dim.T / (count.T * 5);
-                const jScore = dim.J / (count.J * 5);
-                const oScore = dim.O / (count.O * 5);
+                const eScore = dim.E / (count.E * 2);
+                const tScore = dim.T / (count.T * 2);
+                const jScore = dim.J / (count.J * 2);
+                const oScore = dim.O / (count.O * 2);
 
                 const userVector = [eScore, tScore, jScore, oScore];
 
