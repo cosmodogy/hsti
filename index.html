@@ -379,7 +379,7 @@
             let answers = [];
             let generatedImageUrl = null;
             const optionLabels = ["非常符合", "符合", "一般", "不符合", "非常不符合"];
-            const optionValues = [4.5, 3.5, 2.5, 1.5, 0.5];
+            const const optionValues = [2, 1, 0, -1, -2];
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
             const saveBtn = document.getElementById("saveBtn");
@@ -527,8 +527,8 @@
 
             // ---------- 计算得分 & 距离匹配算法 ----------
             function showResult() {
-                // 彩蛋：全选“一般”（值=3）或全部答案相同且为3
-                const isAllNeutral = answers.every(val => val === 3);
+                // 彩蛋：全选“一般”（值=0）或全部答案相同且为0
+                const isAllNeutral = answers.every(val => val === 0);
                 if (isAllNeutral) {
                     const egg = {
                         charCode: "????",
