@@ -143,7 +143,7 @@
         }
         .personality-name {
             font-size: 32px;
-            font-weight: bold;
+            font-weight: 600;
             color: #222;
             margin-bottom: 10px;
         }
@@ -309,38 +309,60 @@
         </div>
     </div>
     <script>
-        const fullQuestionBank = [
-            { text: "我喜欢在游戏群或游戏相关论坛和大家聊天互动", type: "E", isPositive: true },
-            { text: "我会大致规划好抽卡安排，并严格执行", type: "J", isPositive: true },
-            { text: "抽卡时我更看重角色的技能强度而非立绘和性格", type: "T", isPositive: true },
-            { text: "我倾向于维持东京的游戏平稳继续下去，而不是激化各大公会间的矛盾", type: "O", isPositive: true },
-            { text: "遇到刚刚来到东京的转光生，我会主动帮助他融入东京", type: "E", isPositive: true },
-            { text: "我玩游戏很随意，即使断签或者少领了奖励也不会在意", type: "J", isPositive: false },
-            { text: "我会因为被角色在剧情中的表现打动而去专门练角色", type: "T", isPositive: false },
-            { text: "我向往得真道的校园风气", type: "O", isPositive: false },
-            { text: "遇到新人求助，我会主动带他们熟悉东放的剧情和机制", type: "E", isPositive: true },
-            { text: "我在配队时会注意活动道具加成", type: "J", isPositive: true },
-            { text: "我不认为抽卡玄学是有用的", type: "T", isPositive: true },
-            { text: "我并不认可那些大型公会为了达成自己目的而发动战争的行为", type: "O", isPositive: true },
-            { text: "即使有机会，我也不想参加东放官方线下活动", type: "E", isPositive: false },
-            { text: "我经常在看某个活动的剧情时因为临时起意开始去看别的剧情", type: "J", isPositive: false },
-            { text: "即使我喜欢的角色强度不济，我也愿意把他的练度拉到最高", type: "T", isPositive: false },
-            { text: "我喜欢玩一些比较小众的角色，研究非主流的配队", type: "O", isPositive: false },
-            { text: "和公会的伙伴一同行动比独处更令我感到放松", type: "E", isPositive: true },
-            { text: "我认为因幡和阿撒托斯总是恶作剧的性格很令人困扰，跟他们对付不来", type: "J", isPositive: true },
-            { text: "如果牺牲自己或者其他某个个体就能拯救东京，我认为这个代价是值得的", type: "T", isPositive: true },
-            { text: "承诺过的事情，我会竭尽全力遵守，不会轻易反悔", type: "O", isPositive: true },
-            { text: "我深深理解并赞同古文学长不愿意参加祭典的想法", type: "E", isPositive: false },
-            { text: "跟吉力麦卡拉一样，我也喜欢一切都做好计划", type: "J", isPositive: true },
-            { text: "看到感人的剧情，我会被情节打动久久不能忘怀", type: "T", isPositive: false },
-            { text: "我不能理解为什么藏王前辈宁愿留级也要去爬山", type: "O", isPositive: true },
-            { text: "参加交换留学来到其他学校后，我能很快与其他学生打成一片", type: "E", isPositive: true },
-            { text: "即使没有阿形提醒，我也会经常打扫整理自己房间", type: "J", isPositive: true },
-            { text: "现在这个东京已经被折腾的不成样子了，我认为还不如趁早开始下一个轮回", type: "T", isPositive: false },
-            { text: "如果可以，我希望不加入公会，远离放课后的纷争", type: "O", isPositive: false },
-            { text: "我习惯自己钻研享受游戏，从不关心游戏社区", type: "E", isPositive: false },
-            { text: "游戏更新后，我会慢慢玩，不着急赶进度", type: "J", isPositive: false }
-        ];
+
+const fullQuestionBank = [
+    // ==================== E 外向（先正向 true）====================
+    { text: "看到游戏里剧情爆出新设定或新CG，我喜欢立刻到游戏群或论坛和大家一起讨论。", type: "E", isPositive: true },
+    { text: "遇到刚刚来到东京的转光生，我会主动帮助他融入东京", type: "E", isPositive: true },
+    { text: "相比于自己看剧情，我觉得观看带弹幕的剧情录屏更加有趣", type: "E", isPositive: true },
+    { text: "参加交换留学来到其他学校后，我能很快与其他学生打成一片", type: "E", isPositive: true },
+
+    // E 内向（反向 false）
+    { text: "我不擅长参加线下活动，即使有条件去也不怎么会选择参加漫展或兽展", type: "E", isPositive: false },
+    { text: "我理解并赞同古文学长不愿意参加祭典的想法", type: "E", isPositive: false },
+    { text: "我习惯自己钻研享受游戏，从不关心游戏社区", type: "E", isPositive: false },
+    { text: "在神宿学园的日常中，我更享受一个人在天台度过午休时光", type: "E", isPositive: false },
+
+    // ==================== T 理性（先正向 true）====================
+    { text: "相比于立绘和性格，抽卡时我更加注重角色的强度", type: "T", isPositive: true },
+    { text: "我不认为抽卡玄学是有用的", type: "T", isPositive: true },
+    { text: "如果角色强度很高，即使他完全不对自己xp我也会对他好感度很高", type: "T", isPositive: true },
+    { text: "如果牺牲自己或者其他某个个体就能拯救东京，我认为这个代价是值得的", type: "T", isPositive: true },
+
+    // T 感性（反向 false）
+    { text: "我会因为被角色在剧情中的表现打动而去专门练角色", type: "T", isPositive: false },
+    { text: "即使我喜欢的角色强度不济，我也愿意把他的练度拉到最高", type: "T", isPositive: false },
+    { text: "看到感人的剧情，我会被情节打动久久不能忘怀", type: "T", isPositive: false },
+    { text: "现在这个东京已经被折腾的不成样子了，我认为还不如趁早开始下一个轮回", type: "T", isPositive: false },
+
+    // ==================== J 判断（先正向 true）====================
+    { text: "我会大致规划好抽卡安排，并严格执行", type: "J", isPositive: true },
+    { text: "我不擅长应付因幡和阿撒托斯那种喜欢恶作剧的性格", type: "J", isPositive: true },
+    { text: "跟吉力麦卡拉一样，我也喜欢一切都做好计划", type: "J", isPositive: true },
+    { text: "我喜欢井井有条的环境，即使没有阿形提醒我也有动力定时打扫自己的房间", type: "J", isPositive: true },
+
+    // J 知觉（反向 false）
+    { text: "我玩游戏很随意，即使断签、体力溢出或者少领了奖励也不会过分在意", type: "J", isPositive: false },
+    { text: "我经常在看某个活动的剧情时因为临时起意开始去看别的剧情", type: "J", isPositive: false },
+    { text: "我在配队时不怎么关注活动道具加成，能用就行", type: "J", isPositive: false },
+    { text: "游戏更新后，我会慢慢玩，不着急赶进度", type: "J", isPositive: false },
+
+    // ==================== O 秩序（先正向 true）====================
+    { text: "我倾向于维持东京的游戏平稳地进行下去", type: "O", isPositive: true },
+    { text: "相比于放课后激烈的公会战，我还是更喜欢平静的日常", type: "O", isPositive: true },
+    { text: "承诺过的事情，我会竭尽全力遵守，不会轻易反悔", type: "O", isPositive: true },
+    { text: "我觉得藏王前辈宁愿留级也要去爬山的行为有些太过头了", type: "O", isPositive: true },
+
+    // O 混沌（反向 false）
+    { text: "我向往得真道的校园风气", type: "O", isPositive: false },
+    { text: "我喜欢玩一些比较小众的角色，研究非主流的配队", type: "O", isPositive: false },
+    { text: "相比于正派角色，我觉得亦正亦邪的角色甚至完全的反派会更有魅力", type: "O", isPositive: false }
+{ text: "相比于日常温馨的剧情，我更喜欢看那种充满极限反转、规则崩坏的刺激展开。", type: "O", isPositive: false },
+   
+];
+    
+
+        
         const personalities = [
             { code: "ETJO", charCode: "LICT", name: "里希特", element: "六本木的议长", color: "#D2B48C", bgGradient: "linear-gradient(135deg, #E6D5B8 0%, #D2B48C 100%)", desc: "你是外向凌厉的理性规划者，天生擅长洞察人心、煽动情绪，总能以冷静的逻辑直击他人软肋，凭借出色的表达力收拢绝对的认同。你像里希特一样，行事目标明确、步步为营，有着极强的规划力与掌控欲，布局自带章法。你深谙操控与博弈的本质，怀揣着深沉的谋略与野心，以理性为刃搭建自己的格局，你擅长利用规则，更擅长跳出规则，靠自己的算计牢牢主导着局面。" },
             { code: "ETJW", charCode: "CLDE", name: "克劳德", element: "统帅池袋之人", color: "#B22222", bgGradient: "linear-gradient(135deg, #D23B3B 0%, #B22222 100%)", desc: "你是天生的统治者，生来便站在金字塔的顶端。你像克劳德一样，用黄金般的智慧编织秩序，用钢铁般的手段掌控全局。你的气场足以震慑全场，你的远见足以指引未来。或许王冠的重量，让你习惯了独断专行，偶尔会忽略他人的感受，但你永远充满激情的行为也毫无疑问吸引着别人。" },
@@ -505,7 +527,7 @@
             }
         }
 
-        // 终极修复：分界点设为随机答题的平均得分0.6
+        // 终极修复：
         function showResult() {
             // 保留全选一般的彩蛋
             const isAllNeutral = answers.every(val => val === 3);
@@ -538,11 +560,11 @@
             const jScore = dim.J / (count.J * 5);
             const oScore = dim.O / (count.O * 5);
             
-            // 核心终极修复：分界点从0.5改为0.6
-            const eType = eScore >= 0.6 ? "E" : "I";
-            const tType = tScore >= 0.6 ? "T" : "F";
-            const jType = jScore >= 0.6 ? "J" : "P";
-            const oType = oScore >= 0.6 ? "O" : "W";
+            // 
+            const eType = eScore >= 0.5 ? "E" : "I";
+            const tType = tScore >= 0.5 ? "T" : "F";
+            const jType = jScore >= 0.5 ? "J" : "P";
+            const oType = oScore >= 0.5 ? "O" : "W";
             const userCode = eType + tType + jType + oType;
             
             // 直接根据维度组合找到对应人格
@@ -643,4 +665,3 @@
     </script>
 </body>
 </html>
-
