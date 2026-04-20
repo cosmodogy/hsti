@@ -379,7 +379,7 @@
             let answers = [];
             let generatedImageUrl = null;
             const optionLabels = ["非常符合", "符合", "一般", "不符合", "非常不符合"];
-            // 修改分值: -2, -1, 0, 1, 2  (对应非常符合 -> 非常不符合，正向题得分高倾向强)
+            // 修改为新的选项分数
             const optionValues = [2, 1, 0, -1, -2];
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
@@ -526,7 +526,7 @@
                 }
             }
 
-            // ---------- 计算得分 & 距离匹配算法（采用新分值 -2~2）----------
+            // ---------- 计算得分 & 距离匹配算法 ----------
             function showResult() {
                 // 彩蛋：全选“一般”（值=0）
                 const isAllNeutral = answers.every(val => val === 0);
@@ -547,18 +547,18 @@
                 const count = { E: 0, T: 0, J: 0, O: 0 };
 
                 questions.forEach((q, i) => {
-                    let rawValue = answers[i];
-                    // 正向题直接使用，反向题取负值 (非常符合反向题 -> 负分，降低维度倾向)
-                    let adjusted = q.isPositive ? rawValue : -rawValue;
-                    dim[q.type] += adjusted;
+                    let v = answers[i];
+                    // 修改反向题计算逻辑
+                    if (!q.isPositive) v = -v;
+                    dim[q.type] += v;
                     count[q.type]++;
                 });
 
-                // 归一化得分率 (0~1) : 每个维度最大可能分数为 count*2，最小 -count*2
-                const eScore = (dim.E / (count.E * 2) + 1) / 2;
-                const tScore = (dim.T / (count.T * 2) + 1) / 2;
-                const jScore = (dim.J / (count.J * 2) + 1) / 2;
-                const oScore = (dim.O / (count.O * 2) + 1) / 2;
+                // 新的归一化：得分范围-10~10 → 映射到0~1
+                const eScore = (dim.E + 10) / 20;
+                const tScore = (dim.T + 10) / 20;
+                const jScore = (dim.J + 10) / 20;
+                const oScore = (dim.O + 10) / 20;
 
                 const userVector = [eScore, tScore, jScore, oScore];
 
